@@ -109,7 +109,7 @@ public class EntryChoiceActivity extends AppCompatActivity {
                     switch (entryMode) {
                       case ENTRY_JAVA:
                         activity.startActivity(new Intent(activity,
-                                MainActivity.class));
+                                com.seanlab.dalin.mlkit.md.java.MainActivity.class));
                         break;
                       case ENTRY_KOTLIN:
                         activity.startActivity(new Intent(activity,

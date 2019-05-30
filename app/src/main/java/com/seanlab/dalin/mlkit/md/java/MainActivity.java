@@ -29,6 +29,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity;
+import com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity;
+import com.seanlab.dalin.mlkit.md.java.StaticObjectDetectionActivity;
 
 import com.seanlab.dalin.mlkit.R;
 
@@ -75,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     if (requestCode == Utils.REQUEST_CODE_PHOTO_LIBRARY
         && resultCode == Activity.RESULT_OK
         && data != null) {
-      Intent intent = new Intent(this, StaticObjectDetectionActivity.class);
+      Intent intent = new Intent(this, com.seanlab.dalin.mlkit.md.java.StaticObjectDetectionActivity.class);
       intent.setData(data.getData());
       startActivity(intent);
     } else {
@@ -128,13 +131,13 @@ public class MainActivity extends AppCompatActivity {
               Activity activity = MainActivity.this;
               switch (detectionMode) {
                 case ODT_LIVE:
-                  activity.startActivity(new Intent(activity, LiveObjectDetectionActivity.class));
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
                   break;
                 case ODT_STATIC:
                   Utils.openImagePicker(activity);
                   break;
                 case BARCODE_LIVE:
-                  activity.startActivity(new Intent(activity, LiveBarcodeScanningActivity.class));
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity.class));
                   break;
               }
             });

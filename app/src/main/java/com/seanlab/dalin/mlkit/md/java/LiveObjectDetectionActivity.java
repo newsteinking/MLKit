@@ -36,8 +36,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.Chip;
-//import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
+//sean import com.google.android.material.floatingactionbutton.FloatingActionButton;
+// error use FloatingActionButton
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
 import com.seanlab.dalin.mlkit.R;
@@ -71,8 +72,8 @@ public class LiveObjectDetectionActivity extends AppCompatActivity implements On
   private View flashButton;
   private Chip promptChip;
   private AnimatorSet promptChipAnimator;
-  //private ExtendedFloatingActionButton searchButton;
-  private FloatingActionButton searchButton;
+  private ExtendedFloatingActionButton searchButton;
+  // sean private FloatingActionButton searchButton;
 
   private AnimatorSet searchButtonAnimator;
   private ProgressBar searchProgressBar;

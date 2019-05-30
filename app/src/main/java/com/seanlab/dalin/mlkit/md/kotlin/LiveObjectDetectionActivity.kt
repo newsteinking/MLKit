@@ -35,8 +35,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.chip.Chip
-//import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+// sean import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 import com.google.common.base.Objects
 import com.google.common.collect.ImmutableList
@@ -65,8 +65,8 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
     private var flashButton: View? = null
     private var promptChip: Chip? = null
     private var promptChipAnimator: AnimatorSet? = null
-    //private var searchButton: ExtendedFloatingActionButton? = null
-    private var searchButton: FloatingActionButton? = null
+    private var searchButton: ExtendedFloatingActionButton? = null
+    //sean private var searchButton: FloatingActionButton? = null
     private var searchButtonAnimator: AnimatorSet? = null
     private var searchProgressBar: ProgressBar? = null
     private var workflowModel: WorkflowModel? = null
