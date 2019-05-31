@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.os.Bundle
 //import android.support.design.widget.BottomSheetBehavior
 //import android.support.v7.widget.LinearLayoutManager
+//sean
 
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import 	androidx.recyclerview.widget.LinearLayoutManager
@@ -25,7 +26,7 @@ class ImageLabelActivity : BaseCameraActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setupBottomSheet(R.layout.layout_image_label)
-        /* sean
+        /*
         rvLabel.layoutManager = LinearLayoutManager(this)
         */
     }

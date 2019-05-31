@@ -27,9 +27,9 @@ class HomeActivity : AppCompatActivity() {
             add(PojoApi(R.drawable.landmark_identification, getString(R.string.title_landmark), getString(R.string.desc_landmark), 3))
             add(PojoApi(R.drawable.face_detection, getString(R.string.title_face), getString(R.string.desc_face), 4))
         }
-        /*
+
         rvHome.layoutManager = LinearLayoutManager(this)
         rvHome.adapter = HomeAdapter(apiList)
-        */
+
     }
 }

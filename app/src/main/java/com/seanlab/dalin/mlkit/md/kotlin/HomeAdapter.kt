@@ -1,4 +1,4 @@
-package com.seanlab.dalin.mlkit.adapter
+package com.seanlab.dalin.mlkit.md.kotlin
 
 import android.app.Activity
 

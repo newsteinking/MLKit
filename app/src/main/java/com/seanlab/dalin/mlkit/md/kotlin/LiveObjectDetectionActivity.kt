@@ -28,6 +28,7 @@ import android.view.View
 import android.view.View.OnClickListener
 import android.widget.ProgressBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -40,7 +41,10 @@ import com.google.android.material.floatingactionbutton.ExtendedFloatingActionBu
 
 import com.google.common.base.Objects
 import com.google.common.collect.ImmutableList
+import com.google.firebase.ml.vision.FirebaseVision
+import com.google.firebase.ml.vision.common.FirebaseVisionImage
 import com.seanlab.dalin.mlkit.R
+import com.seanlab.dalin.mlkit.adapter.ImageLabelAdapter
 import com.seanlab.dalin.mlkit.md.kotlin.camera.GraphicOverlay
 import com.seanlab.dalin.mlkit.md.kotlin.camera.WorkflowModel
 import com.seanlab.dalin.mlkit.md.kotlin.camera.WorkflowModel.WorkflowState
@@ -53,6 +57,7 @@ import com.seanlab.dalin.mlkit.md.kotlin.productsearch.ProductAdapter
 import com.seanlab.dalin.mlkit.md.kotlin.productsearch.SearchEngine
 import com.seanlab.dalin.mlkit.md.kotlin.settings.PreferenceUtils
 import com.seanlab.dalin.mlkit.md.kotlin.settings.SettingsActivity
+import kotlinx.android.synthetic.main.activity_main.*
 import java.io.IOException
 
 /** Demonstrates the object detection and visual search workflow using camera preview.  */
@@ -96,11 +101,11 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             (AnimatorInflater.loadAnimator(this, R.animator.bottom_prompt_chip_enter) as AnimatorSet).apply {
                 setTarget(promptChip)
             }
-        /* sean
+
         searchButton = findViewById<ExtendedFloatingActionButton>(R.id.product_search_button).apply {
             setOnClickListener(this@LiveObjectDetectionActivity)
         }
-        */
+
         searchButtonAnimator =
             (AnimatorInflater.loadAnimator(this, R.animator.search_button_enter) as AnimatorSet).apply {
                 setTarget(searchButton)
@@ -116,6 +121,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
         }
         setUpWorkflowModel()
     }
+
 
     override fun onResume() {
         super.onResume()
@@ -178,7 +184,9 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             }
         }
     }
+    //sean
 
+    //
     private fun startCameraPreview() {
         val cameraSource = this.cameraSource ?: return
         val workflowModel = this.workflowModel ?: return

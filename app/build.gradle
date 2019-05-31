@@ -81,6 +81,8 @@ dependencies {
     implementation "androidx.annotation:annotation:1.0.2"
     implementation "androidx.core:core-ktx:1.0.2"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.0.0"
+    implementation "androidx.recyclerview:recyclerview:1.0.0"
+    //impementation  "androidx.cardview.widget.CardView"
     //implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.3.31"
     api 'com.google.guava:guava:27.1-jre'
 }

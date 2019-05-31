@@ -74,10 +74,12 @@
             android:name=".md.EntryChoiceActivity"
             android:exported="true"
             android:screenOrientation="portrait">
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+            -->
         </activity>
 
         <activity
@@ -114,8 +116,12 @@
 
         <activity
             android:name=".md.kotlin.MainActivity"
-            android:exported="false"
+            android:exported="true"
             android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
 
         <activity

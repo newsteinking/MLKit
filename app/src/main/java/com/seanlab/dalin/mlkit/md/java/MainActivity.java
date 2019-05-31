@@ -33,13 +33,16 @@ import com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity;
 import com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity;
 import com.seanlab.dalin.mlkit.md.java.StaticObjectDetectionActivity;
 
+
 import com.seanlab.dalin.mlkit.R;
 
 /** Entry activity to select the detection mode. */
 public class MainActivity extends AppCompatActivity {
 
+
+
   private enum DetectionMode {
-    ODT_LIVE(R.string.mode_odt_live_title, R.string.mode_odt_live_subtitle),
+    ODT_LIVE(R.string.mode_odt_live_image_title, R.string.mode_odt_live_image_subtitle),
     ODT_STATIC(R.string.mode_odt_static_title, R.string.mode_odt_static_subtitle),
     BARCODE_LIVE(R.string.mode_barcode_live_title, R.string.mode_barcode_live_subtitle);
 
@@ -63,6 +66,8 @@ public class MainActivity extends AppCompatActivity {
     modeRecyclerView.setHasFixedSize(true);
     modeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
     modeRecyclerView.setAdapter(new ModeItemAdapter(DetectionMode.values()));
+
+
   }
 
   @Override
