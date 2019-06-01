@@ -44,9 +44,12 @@ import com.seanlab.dalin.mlkit.R
 import com.seanlab.dalin.mlkit.md.kotlin.productsearch.BottomSheetScrimView
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+//sean
+
 import com.google.firebase.ml.vision.objects.FirebaseVisionObject
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
+
 import com.seanlab.dalin.mlkit.md.kotlin.objectdetection.DetectedObject
 import com.seanlab.dalin.mlkit.md.kotlin.objectdetection.StaticObjectDotView
 import com.seanlab.dalin.mlkit.md.kotlin.productsearch.PreviewCardAdapter

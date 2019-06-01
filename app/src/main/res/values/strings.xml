@@ -47,8 +47,8 @@
     <string name="prompt_searching">Searching&#8230;</string>
     <string name="product_search_button">Search object</string>
     <plurals name="bottom_sheet_title">
-        <item quantity="one">%d match found</item>
-        <item quantity="other">%d matches found</item>
+        <item quantity="one">%d 건 검색됨</item>
+        <item quantity="other">%d 건 검색됨</item>
     </plurals>
     <string name="static_image_prompt_detected_no_results">No results found</string>
     <string name="static_image_prompt_detected_results">Tap on a dot to inspect</string>

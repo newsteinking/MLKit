@@ -64,6 +64,7 @@ public class SearchEngine {
 
   private static JsonObjectRequest createRequest(DetectedObject searchingObject) throws Exception {
     byte[] objectImageData = searchingObject.getImageData();
+
     if (objectImageData == null) {
       throw new Exception("Failed to get object image data!");
     }

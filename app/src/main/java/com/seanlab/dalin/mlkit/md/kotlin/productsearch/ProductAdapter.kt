@@ -39,6 +39,8 @@ class ProductAdapter(private val productList: List<Product>) : Adapter<ProductVi
 
         fun bindProduct(product: Product) {
             imageView.setImageDrawable(null)
+            //sean
+
             if (!TextUtils.isEmpty(product.imageUrl)) {
                 ImageDownloadTask(imageView, imageSize).execute(product.imageUrl)
             } else {
@@ -46,6 +48,7 @@ class ProductAdapter(private val productList: List<Product>) : Adapter<ProductVi
             }
             titleView.text = product.title
             subtitleView.text = product.subtitle
+
         }
 
         companion object {

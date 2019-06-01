@@ -79,6 +79,7 @@ public class LiveObjectDetectionActivity extends AppCompatActivity implements On
   private ProgressBar searchProgressBar;
   private WorkflowModel workflowModel;
   private WorkflowState currentWorkflowState;
+  //sean
   private SearchEngine searchEngine;
 
   private BottomSheetBehavior<View> bottomSheetBehavior;
@@ -317,6 +318,11 @@ public class LiveObjectDetectionActivity extends AppCompatActivity implements On
                     .getQuantityString(
                         R.plurals.bottom_sheet_title, productList.size(), productList.size()));
             productRecyclerView.setAdapter(new ProductAdapter(productList));
+            Log.d(TAG, "searched : " + productList.size());
+            Log.d(TAG, "searched : " + productList.toString());
+
+
+
             slidingSheetUpFromHiddenState = true;
             bottomSheetBehavior.setPeekHeight(preview.getHeight() / 2);
             bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);

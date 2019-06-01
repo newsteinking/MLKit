@@ -22,6 +22,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -42,14 +43,25 @@ public class MainActivity extends AppCompatActivity {
 
 
   private enum DetectionMode {
+
+    ODT_LIVE_IMAGE(R.drawable.image_labelling,R.string.mode_odt_live_image_title, R.string.mode_odt_live_image_subtitle),
+    ODT_LIVE_TEXT(R.drawable.text_recognition,R.string.mode_odt_live_text_title, R.string.mode_odt_live_text_subtitle),
+    ODT_LIVE_BARCODE(R.drawable.barcode_scanning,R.string.mode_odt_live_barcode_title, R.string.mode_odt_live_barcode_subtitle),
+    ODT_LIVE_LANDMARK(R.drawable.landmark_identification,R.string.mode_odt_live_landmark_title, R.string.mode_odt_live_landmark_subtitle),
+    ODT_LIVE_FACE(R.drawable.face_detection,R.string.mode_odt_live_face_title, R.string.mode_odt_live_face_subtitle);
+    /*
     ODT_LIVE(R.string.mode_odt_live_image_title, R.string.mode_odt_live_image_subtitle),
     ODT_STATIC(R.string.mode_odt_static_title, R.string.mode_odt_static_subtitle),
     BARCODE_LIVE(R.string.mode_barcode_live_title, R.string.mode_barcode_live_subtitle);
+    */
+    //sean
+    private final int imageResId;
 
     private final int titleResId;
     private final int subtitleResId;
 
-    DetectionMode(int titleResId, int subtitleResId) {
+    DetectionMode(int imageResId,int titleResId, int subtitleResId) {
+      this.imageResId=imageResId;
       this.titleResId = titleResId;
       this.subtitleResId = subtitleResId;
     }
@@ -119,22 +131,43 @@ public class MainActivity extends AppCompatActivity {
 
     private class ModeItemViewHolder extends RecyclerView.ViewHolder {
 
+      private final ImageView imgView;
       private final TextView titleView;
       private final TextView subtitleView;
 
       ModeItemViewHolder(@NonNull View view) {
         super(view);
+        imgView=view.findViewById(R.id.iViewApi);
         titleView = view.findViewById(R.id.mode_title);
         subtitleView = view.findViewById(R.id.mode_subtitle);
       }
 
       void bindDetectionMode(DetectionMode detectionMode) {
+
+        imgView.setImageResource(detectionMode.imageResId);
         titleView.setText(detectionMode.titleResId);
         subtitleView.setText(detectionMode.subtitleResId);
         itemView.setOnClickListener(
             view -> {
               Activity activity = MainActivity.this;
               switch (detectionMode) {
+                case ODT_LIVE_IMAGE:
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  break;
+                case ODT_LIVE_TEXT:
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  break;
+                case ODT_LIVE_BARCODE:
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity.class));
+                  break;
+                case ODT_LIVE_LANDMARK:
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  break;
+                case ODT_LIVE_FACE:
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  break;
+
+                /*
                 case ODT_LIVE:
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
                   break;
@@ -144,6 +177,7 @@ public class MainActivity extends AppCompatActivity {
                 case BARCODE_LIVE:
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity.class));
                   break;
+                  */
               }
             });
       }
