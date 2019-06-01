@@ -38,20 +38,13 @@ class FaceDetectionActivity : BaseCameraActivity() {
     }
 
     private fun getFaceDetails(bitmap: Bitmap) {
+        //sean
         /*
         val options: FirebaseVisionFaceDetectorOptions = FirebaseVisionFaceDetectorOptions.Builder()
                 .setLandmarkType(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
                 .setClassificationType(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
                 .setModeType(FirebaseVisionFaceDetectorOptions.FAST_MODE)
                 .build()
-        */
-        val options: FirebaseVisionFaceDetectorOptions = FirebaseVisionFaceDetectorOptions.Builder()
-                //.setLandmarkMode(FirebaseVisionFaceDetectorOptions.ALL_LANDMARKS)
-                .setClassificationMode(FirebaseVisionFaceDetectorOptions.ALL_CLASSIFICATIONS)
-                .setPerformanceMode(FirebaseVisionFaceDetectorOptions.FAST)
-                .enableTracking()
-                .build()
-
         val image: FirebaseVisionImage = FirebaseVisionImage.fromBitmap(bitmap)
         val faceDetector = FirebaseVision.getInstance().getVisionFaceDetector(options)
 
@@ -59,7 +52,7 @@ class FaceDetectionActivity : BaseCameraActivity() {
                 .addOnSuccessListener {
                     detectedFaces.clear()
                     detectedFaces.addAll(it)
-                    //sean adapter.notifyDataSetChanged()
+                    adapter.notifyDataSetChanged()
                 }
                 .addOnFailureListener {
                     Toast.makeText(this, "Sorry, an error occurred", Toast.LENGTH_SHORT).show()
@@ -68,6 +61,7 @@ class FaceDetectionActivity : BaseCameraActivity() {
                     sheetBehavior.state = BottomSheetBehavior.STATE_EXPANDED
                     fabProgressCircle.hide()
                 }
+        */
     }
 
     override fun onClick(v: View?) {

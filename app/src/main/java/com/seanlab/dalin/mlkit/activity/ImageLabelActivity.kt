@@ -17,9 +17,10 @@ import androidx.annotation.MainThread
 import com.google.common.collect.ImmutableList
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
-import com.google.firebase.ml.vision.objects.FirebaseVisionObject
-import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector
-import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
+//sean
+//import com.google.firebase.ml.vision.objects.FirebaseVisionObject
+//import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector
+//import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
 import com.seanlab.dalin.mlkit.R
 import com.seanlab.dalin.mlkit.adapter.ImageLabelAdapter
 import com.seanlab.dalin.mlkit.md.kotlin.StaticObjectDetectionActivity
@@ -44,24 +45,9 @@ class ImageLabelActivity : BaseCameraActivity() {
     }
 
     private fun getLabelsFromDevice(bitmap: Bitmap) {
-        val image = FirebaseVisionImage.fromBitmap(bitmap)
-        val detector = FirebaseVision.getInstance().onDeviceObjectDetector
-        detector.processImage(image)
-                .addOnSuccessListener {
-                    // Task completed successfully
-                    fabProgressCircle.hide()
-                    itemsList.addAll(it)
-                    itemAdapter = ImageLabelAdapter(itemsList, false)
-                    //sean rvLabel.adapter = itemAdapter
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-                }
-                .addOnFailureListener {
-                    // Task failed with an exception
-                    fabProgressCircle.hide()
-                    Toast.makeText(baseContext,"Sorry, something went wrong!",Toast.LENGTH_SHORT).show()
-                }
-
+        //sean
         /*
+        val image = FirebaseVisionImage.fromBitmap(bitmap)
         val detector = FirebaseVision.getInstance().visionLabelDetector
         itemsList.clear()
         detector.detectInImage(image)
@@ -78,32 +64,12 @@ class ImageLabelActivity : BaseCameraActivity() {
                     fabProgressCircle.hide()
                     Toast.makeText(baseContext,"Sorry, something went wrong!",Toast.LENGTH_SHORT).show()
                 }
-         */
-
+        */
     }
 
     private fun getLabelsFromClod(bitmap: Bitmap) {
+        /*
         val image = FirebaseVisionImage.fromBitmap(bitmap)
-
-        val detector = FirebaseVision.getInstance().cloudImageLabeler
-        itemsList.clear()
-
-        detector.processImage(image)
-                .addOnSuccessListener {
-                    // Task completed successfully
-                    fabProgressCircle.hide()
-                    itemsList.addAll(it)
-                    itemAdapter = ImageLabelAdapter(itemsList, true)
-                    //sean rvLabel.adapter = itemAdapter
-                    sheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED)
-                }
-                .addOnFailureListener {
-                    // Task failed with an exception
-                    fabProgressCircle.hide()
-                    Toast.makeText(baseContext,"Sorry, something went wrong!",Toast.LENGTH_SHORT).show()
-                }
-
-          /*
         val detector = FirebaseVision.getInstance()
                 .visionCloudLabelDetector
         itemsList.clear()
@@ -121,7 +87,7 @@ class ImageLabelActivity : BaseCameraActivity() {
                     fabProgressCircle.hide()
                     Toast.makeText(baseContext,"Sorry, something went wrong!",Toast.LENGTH_SHORT).show()
                 }
-          */
+        */
     }
 
 
