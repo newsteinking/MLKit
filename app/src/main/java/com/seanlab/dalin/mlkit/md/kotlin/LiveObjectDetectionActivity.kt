@@ -184,9 +184,7 @@ class LiveObjectDetectionActivity : AppCompatActivity(), OnClickListener {
             }
         }
     }
-    //sean
 
-    //
     private fun startCameraPreview() {
         val cameraSource = this.cameraSource ?: return
         val workflowModel = this.workflowModel ?: return

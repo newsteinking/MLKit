@@ -57,23 +57,34 @@ dependencies {
     implementation 'androidx.constraintlayout:constraintlayout:1.1.2'
 
 
+    //new
+    // ML Kit dependencies
+    implementation 'com.google.firebase:firebase-ml-vision:20.0.0'
+    //implementation "com.google.firebase:firebase-ml-vision:19.0.3"
+    // Image Labeling model.
     implementation 'com.google.firebase:firebase-ml-vision-image-label-model:17.0.2'
+    // Face model
     implementation 'com.google.firebase:firebase-ml-vision-face-model:17.0.2'
+    // Object model
     implementation 'com.google.firebase:firebase-ml-vision-object-detection-model:16.0.0'
+    // Custom model
     implementation "com.google.firebase:firebase-ml-model-interpreter:19.0.0"
-    implementation "com.google.firebase:firebase-ml-vision:19.0.3"
+     // AutoML model
+    implementation 'com.google.firebase:firebase-ml-vision-automl:16.0.0'
+
     implementation 'com.google.firebase:firebase-core:16.0.9'
     implementation 'com.google.firebase:firebase-crash:16.2.1'
 
 
-    //org
-    /*
+    //org old  https://github.com/the-dagger/MLKitAndroid
+     /*
     implementation 'com.google.firebase:firebase-ml-vision-image-label-model:15.0.0'
     implementation "com.google.firebase:firebase-ml-model-interpreter:16.2.0"
     implementation "com.google.firebase:firebase-ml-vision:17.0.0"
     implementation 'com.google.firebase:firebase-core:16.0.3'
     implementation 'com.google.firebase:firebase-crash:16.2.0'
      */
+
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.0'

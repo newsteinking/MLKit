@@ -22,6 +22,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.tasks.Tasks;
+import com.google.firebase.ml.vision.FirebaseVision;
 import com.seanlab.dalin.mlkit.md.java.objectdetection.DetectedObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +71,10 @@ public class SearchEngine {
     }
 
     // Hooks up with your own product search backend here.
+    Log.e(TAG, "SEAN" +objectImageData.toString());
+
+
+
     throw new Exception("Hooks up with your own product search backend.");
   }
 

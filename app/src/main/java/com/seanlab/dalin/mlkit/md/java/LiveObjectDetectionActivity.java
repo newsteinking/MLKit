@@ -319,7 +319,7 @@ public class LiveObjectDetectionActivity extends AppCompatActivity implements On
                         R.plurals.bottom_sheet_title, productList.size(), productList.size()));
             productRecyclerView.setAdapter(new ProductAdapter(productList));
             Log.d(TAG, "searched : " + productList.size());
-            Log.d(TAG, "searched : " + productList.toString());
+
 
 
 

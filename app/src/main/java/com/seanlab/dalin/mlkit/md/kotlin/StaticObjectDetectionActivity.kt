@@ -45,7 +45,6 @@ import com.seanlab.dalin.mlkit.md.kotlin.productsearch.BottomSheetScrimView
 import com.google.firebase.ml.vision.FirebaseVision
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
 //sean
-
 import com.google.firebase.ml.vision.objects.FirebaseVisionObject
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetector
 import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
@@ -121,13 +120,15 @@ class StaticObjectDetectionActivity : AppCompatActivity(), View.OnClickListener 
                                 .enableMultipleObjects()
                                 .build()
                 )
+
         intent.data?.let { detectObjects(it) }
     }
 
     override fun onDestroy() {
         super.onDestroy()
         try {
-            detector?.close()
+            //sean
+            //detector?.close()
         } catch (e: IOException) {
             Log.e(TAG, "Failed to close the detector!", e)
         }
@@ -233,10 +234,13 @@ class StaticObjectDetectionActivity : AppCompatActivity(), View.OnClickListener 
         inputImageView?.setImageBitmap(inputBitmap)
         loadingView?.visibility = View.VISIBLE
         val image = FirebaseVisionImage.fromBitmap(inputBitmap!!)
+
         detector?.processImage(image)
                 ?.addOnSuccessListener { objects -> onObjectsDetected(image, objects) }
                 ?.addOnFailureListener { onObjectsDetected(image, ImmutableList.of()) }
+
     }
+
 
     @MainThread
     private fun onObjectsDetected(image: FirebaseVisionImage, objects: List<FirebaseVisionObject>) {
@@ -254,6 +258,7 @@ class StaticObjectDetectionActivity : AppCompatActivity(), View.OnClickListener 
             }
         }
     }
+
 
     private fun onSearchCompleted(detectedObject: DetectedObject, productList: List<Product>) {
         Log.d(TAG, "Search completed for object index: ${detectedObject.objectIndex}")

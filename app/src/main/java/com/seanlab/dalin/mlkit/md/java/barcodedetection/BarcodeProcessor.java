@@ -17,7 +17,9 @@
 package com.seanlab.dalin.mlkit.md.java.barcodedetection;
 
 import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.graphics.RectF;
+import android.net.Uri;
 import android.util.Log;
 import androidx.annotation.MainThread;
 import com.google.android.gms.tasks.Task;
@@ -33,6 +35,8 @@ import com.seanlab.dalin.mlkit.md.java.camera.FrameProcessorBase;
 import com.seanlab.dalin.mlkit.md.java.settings.PreferenceUtils;
 import java.io.IOException;
 import java.util.List;
+
+import static androidx.core.content.ContextCompat.startActivity;
 
 /** A processor to run the barcode detector. */
 public class BarcodeProcessor extends FrameProcessorBase<List<FirebaseVisionBarcode>> {
@@ -67,13 +71,17 @@ public class BarcodeProcessor extends FrameProcessorBase<List<FirebaseVisionBarc
     Log.d(TAG, "Barcode result size: " + results.size());
 
     // Picks the barcode, if exists, that covers the center of graphic overlay.
+
     FirebaseVisionBarcode barcodeInCenter = null;
     for (FirebaseVisionBarcode barcode : results) {
+
+
       RectF box = graphicOverlay.translateRect(barcode.getBoundingBox());
       if (box.contains(graphicOverlay.getWidth() / 2f, graphicOverlay.getHeight() / 2f)) {
         barcodeInCenter = barcode;
         break;
       }
+
     }
 
     graphicOverlay.clear();

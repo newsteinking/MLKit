@@ -45,8 +45,8 @@ public class MainActivity extends AppCompatActivity {
   private enum DetectionMode {
 
     ODT_LIVE_IMAGE(R.drawable.image_labelling,R.string.mode_odt_live_image_title, R.string.mode_odt_live_image_subtitle),
-    ODT_LIVE_TEXT(R.drawable.text_recognition,R.string.mode_odt_live_text_title, R.string.mode_odt_live_text_subtitle),
     ODT_LIVE_BARCODE(R.drawable.barcode_scanning,R.string.mode_odt_live_barcode_title, R.string.mode_odt_live_barcode_subtitle),
+    ODT_LIVE_TEXT(R.drawable.text_recognition,R.string.mode_odt_live_text_title, R.string.mode_odt_live_text_subtitle),
     ODT_LIVE_LANDMARK(R.drawable.landmark_identification,R.string.mode_odt_live_landmark_title, R.string.mode_odt_live_landmark_subtitle),
     ODT_LIVE_FACE(R.drawable.face_detection,R.string.mode_odt_live_face_title, R.string.mode_odt_live_face_subtitle);
     /*
@@ -155,7 +155,8 @@ public class MainActivity extends AppCompatActivity {
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
                   break;
                 case ODT_LIVE_TEXT:
-                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  Utils.openImagePicker(activity);
+                  //activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
                   break;
                 case ODT_LIVE_BARCODE:
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity.class));

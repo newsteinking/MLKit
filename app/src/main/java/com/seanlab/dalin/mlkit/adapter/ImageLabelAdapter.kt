@@ -14,8 +14,8 @@ class ImageLabelAdapter(private val firebaseVisionList: List<Any>, private val i
     lateinit var context: Context
 
     inner class ItemHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+      /*
 
-        /*
         fun bindCloud(currentItem: FirebaseVisionCloudLabel) {
             when {
                 currentItem.confidence > .70 -> itemView.itemAccuracy.setTextColor(ContextCompat.getColor(context, R.color.green))
@@ -35,18 +35,18 @@ class ImageLabelAdapter(private val firebaseVisionList: List<Any>, private val i
             itemView.itemName.text = currentItem.label
             itemView.itemAccuracy.text = "Probability : ${(currentItem.confidence * 100).toInt()}%"
         }
-        */
+   */
     }
 
     override fun onBindViewHolder(holder: ItemHolder, position: Int) {
-        /*
-        val currentItem = firebaseVisionList[position]
 
+        val currentItem = firebaseVisionList[position]
+        /*
         if (isCloud)
             holder.bindCloud(currentItem as FirebaseVisionCloudLabel)
         else
             holder.bindDevice(currentItem as FirebaseVisionLabel)
-        */
+         */
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemHolder {

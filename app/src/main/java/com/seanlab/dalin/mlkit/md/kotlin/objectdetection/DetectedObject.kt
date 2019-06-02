@@ -21,7 +21,9 @@ import android.graphics.Bitmap.CompressFormat
 import android.graphics.Rect
 import android.util.Log
 import com.google.firebase.ml.vision.common.FirebaseVisionImage
+//sean
 import com.google.firebase.ml.vision.objects.FirebaseVisionObject
+
 import java.io.ByteArrayOutputStream
 import java.io.IOException
 
@@ -44,9 +46,11 @@ class DetectedObject(
         @Synchronized get() {
             if (jpegBytes == null) {
                 try {
+
                     ByteArrayOutputStream().use { stream ->
                         getBitmap().compress(CompressFormat.JPEG, /* quality= */ 100, stream)
                         jpegBytes = stream.toByteArray()
+
                     }
                 } catch (e: IOException) {
                     Log.e(TAG, "Error getting object image data!")
@@ -57,7 +61,9 @@ class DetectedObject(
 
     @Synchronized
     fun getBitmap(): Bitmap {
+
         return bitmap ?: let {
+
             val boundingBox = visionObject.boundingBox
             val createdBitmap = Bitmap.createBitmap(
                     image.bitmap,
@@ -66,12 +72,14 @@ class DetectedObject(
                     boundingBox.width(),
                     boundingBox.height()
             )
+
             if (createdBitmap.width > MAX_IMAGE_WIDTH) {
                 val dstHeight = (MAX_IMAGE_WIDTH.toFloat() / createdBitmap.width * createdBitmap.height).toInt()
                 bitmap = Bitmap.createScaledBitmap(createdBitmap, MAX_IMAGE_WIDTH, dstHeight, /* filter= */ false)
             }
             createdBitmap
         }
+
     }
 
     companion object {

@@ -3,8 +3,8 @@
     <string name="detected_items">찾는것</string>
     <string name="desc_text">간단히 카드 유효기간을 확인해보세요.</string>
     <string name="desc_face">개인적 머신러닝을 해보세요.</string>
-    <string name="desc_barcode">QR 코드로 찾아보세요.</string>
-    <string name="desc_labelling">인공지능 이미지 검색을 해보세요.</string>
+    <string name="desc_barcode">바코드 또는 QR 코드로 찾아보세요.</string>
+    <string name="desc_labelling">인공지능으로 재활용을 검색해 해보세요.</string>
     <string name="desc_landmark">유명지 사진이 맞는지 확인해보세요.</string>
     <string name="title_text">글자 인식하기</string>
     <string name="title_custom">Custom Model</string>

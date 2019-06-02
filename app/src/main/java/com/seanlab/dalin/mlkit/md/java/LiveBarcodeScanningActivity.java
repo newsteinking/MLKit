@@ -28,6 +28,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import com.google.android.material.chip.Chip;
 import com.google.common.base.Objects;
+import com.google.firebase.ml.vision.barcode.FirebaseVisionBarcode;
 import com.seanlab.dalin.mlkit.R;
 import com.seanlab.dalin.mlkit.md.java.camera.GraphicOverlay;
 import com.seanlab.dalin.mlkit.md.java.camera.WorkflowModel;
@@ -41,6 +42,7 @@ import com.seanlab.dalin.mlkit.md.java.settings.SettingsActivity;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import android.net.Uri;
 
 /** Demonstrates the barcode scanning workflow using camera preview. */
 public class LiveBarcodeScanningActivity extends AppCompatActivity implements OnClickListener {
@@ -212,8 +214,23 @@ public class LiveBarcodeScanningActivity extends AppCompatActivity implements On
         barcode -> {
           if (barcode != null) {
             ArrayList<BarcodeField> barcodeFieldList = new ArrayList<>();
+            int type = barcode.getValueType();
+            switch (type) {
+              case FirebaseVisionBarcode.TYPE_URL:
+                Intent view = new Intent(Intent.ACTION_VIEW);
+                view.setData(Uri.parse(barcode.getDisplayValue()));
+                startActivity(view);
+                break;
+              default:
+                barcodeFieldList.add(new BarcodeField("바코드숫자", barcode.getRawValue()));
+                BarcodeResultFragment.show(getSupportFragmentManager(), barcodeFieldList);
+                break;
+
+            }
+            /*
             barcodeFieldList.add(new BarcodeField("Raw Value", barcode.getRawValue()));
             BarcodeResultFragment.show(getSupportFragmentManager(), barcodeFieldList);
+            */
           }
         });
   }
