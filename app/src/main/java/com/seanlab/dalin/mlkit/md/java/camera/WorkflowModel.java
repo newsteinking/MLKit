@@ -30,13 +30,14 @@ import com.seanlab.dalin.mlkit.md.java.productsearch.Product;
 import com.seanlab.dalin.mlkit.md.java.productsearch.SearchedObject;
 import com.seanlab.dalin.mlkit.md.java.settings.PreferenceUtils;
 import com.seanlab.dalin.mlkit.md.java.productsearch.SearchEngine;
+import com.seanlab.dalin.mlkit.md.java.productsearch.SearchEngineCloud;
 
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 /** View model for handling application workflow based on camera preview. */
-public class WorkflowModel extends AndroidViewModel implements SearchEngine.SearchResultListener {
+public class WorkflowModel extends AndroidViewModel implements SearchEngine.SearchResultListener,SearchEngineCloud.SearchResultListener {
 
   /**
    * State set of the application workflow.

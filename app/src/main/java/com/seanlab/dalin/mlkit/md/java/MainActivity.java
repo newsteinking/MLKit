@@ -33,6 +33,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity;
 import com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity;
 import com.seanlab.dalin.mlkit.md.java.StaticObjectDetectionActivity;
+import com.seanlab.dalin.mlkit.md.java.LiveObjectCloudDetectionActivity;
 
 
 import com.seanlab.dalin.mlkit.R;
@@ -155,14 +156,14 @@ public class MainActivity extends AppCompatActivity {
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
                   break;
                 case ODT_LIVE_TEXT:
-                  Utils.openImagePicker(activity);
-                  //activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  //Utils.openImagePicker(activity);
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.StillImageActivity.class));
                   break;
                 case ODT_LIVE_BARCODE:
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveBarcodeScanningActivity.class));
                   break;
                 case ODT_LIVE_LANDMARK:
-                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));
+                  activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectCloudDetectionActivity.class));
                   break;
                 case ODT_LIVE_FACE:
                   activity.startActivity(new Intent(activity, com.seanlab.dalin.mlkit.md.java.LiveObjectDetectionActivity.class));

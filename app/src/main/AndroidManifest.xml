@@ -99,6 +99,11 @@
             android:exported="false"
             android:screenOrientation="portrait">
         </activity>
+        <activity
+            android:name=".md.java.LiveObjectCloudDetectionActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+        </activity>
 
         <activity
             android:name=".md.java.LiveBarcodeScanningActivity"
@@ -119,6 +124,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/Theme.AppCompat.Light">
         </activity>
+        <activity
+            android:name=".md.java.StillImageActivity"
+            android:exported="false"
+            android:screenOrientation="portrait">
+        </activity>
+
 
         <activity
             android:name=".md.kotlin.MainActivity"

@@ -40,7 +40,7 @@ import android.widget.Spinner;
 
 import com.google.android.gms.common.annotation.KeepName;
 import com.seanlab.dalin.mlkit.R;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+
 import com.seanlab.dalin.mlkit.md.common.VisionImageProcessor;
 import com.seanlab.dalin.mlkit.md.java.cloudimagelabeling.CloudImageLabelingProcessor;
 import com.seanlab.dalin.mlkit.md.java.cloudlandmarkrecognition.CloudLandmarkRecognitionProcessor;
@@ -50,6 +50,8 @@ import com.seanlab.dalin.mlkit.md.java.cloudtextrecognition.CloudTextRecognition
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
 
 /** Activity demonstrating different image detector features with a still image from camera. */
 @KeepName
@@ -296,6 +298,7 @@ public final class StillImageActivity extends AppCompatActivity {
       bitmapForDetection = resizedBitmap;
 
       imageProcessor.process(bitmapForDetection, graphicOverlay);
+
     } catch (IOException e) {
       Log.e(TAG, "Error retrieving saved image");
     }
