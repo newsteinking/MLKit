@@ -30,7 +30,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.common.FirebaseVisionImageMetadata;
 import com.seanlab.dalin.mlkit.md.common.BitmapUtils;
 import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 import com.seanlab.dalin.mlkit.md.common.VisionImageProcessor;
 
 import java.nio.ByteBuffer;
@@ -65,36 +65,36 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
 
     @Override
     public synchronized void process(
-            ByteBuffer data, final FrameMetadata frameMetadata, final GraphicOverlay
-            graphicOverlay) {
+            ByteBuffer data, final FrameMetadata frameMetadata, final GraphicOverlayLabel
+            graphicOverlayLabel) {
         latestImage = data;
         latestImageMetaData = frameMetadata;
         if (processingImage == null && processingMetaData == null) {
-            processLatestImage(graphicOverlay);
+            processLatestImage(graphicOverlayLabel);
         }
     }
 
     // Bitmap version
     @Override
-    public void process(Bitmap bitmap, final GraphicOverlay
-            graphicOverlay) {
+    public void process(Bitmap bitmap, final GraphicOverlayLabel
+            graphicOverlayLabel) {
         detectInVisionImage(null /* bitmap */, FirebaseVisionImage.fromBitmap(bitmap), null,
-                graphicOverlay);
+                graphicOverlayLabel);
     }
 
-    private synchronized void processLatestImage(final GraphicOverlay graphicOverlay) {
+    private synchronized void processLatestImage(final GraphicOverlayLabel graphicOverlayLabel) {
         processingImage = latestImage;
         processingMetaData = latestImageMetaData;
         latestImage = null;
         latestImageMetaData = null;
         if (processingImage != null && processingMetaData != null) {
-            processImage(processingImage, processingMetaData, graphicOverlay);
+            processImage(processingImage, processingMetaData, graphicOverlayLabel);
         }
     }
 
     private void processImage(
             ByteBuffer data, final FrameMetadata frameMetadata,
-            final GraphicOverlay graphicOverlay) {
+            final GraphicOverlayLabel graphicOverlayLabel) {
         FirebaseVisionImageMetadata metadata =
                 new FirebaseVisionImageMetadata.Builder()
                         .setFormat(FirebaseVisionImageMetadata.IMAGE_FORMAT_NV21)
@@ -106,14 +106,14 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
         Bitmap bitmap = BitmapUtils.getBitmap(data, frameMetadata);
         detectInVisionImage(
                 bitmap, FirebaseVisionImage.fromByteBuffer(data, metadata), frameMetadata,
-                graphicOverlay);
+                graphicOverlayLabel);
     }
 
     private void detectInVisionImage(
             final Bitmap originalCameraImage,
             FirebaseVisionImage image,
             final FrameMetadata metadata,
-            final GraphicOverlay graphicOverlay) {
+            final GraphicOverlayLabel graphicOverlayLabel) {
         detectInImage(image)
                 .addOnSuccessListener(
                         new OnSuccessListener<T>() {
@@ -121,8 +121,8 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
                             public void onSuccess(T results) {
                                 VisionProcessorBase.this.onSuccess(originalCameraImage, results,
                                         metadata,
-                                        graphicOverlay);
-                                processLatestImage(graphicOverlay);
+                                        graphicOverlayLabel);
+                                processLatestImage(graphicOverlayLabel);
                             }
                         })
                 .addOnFailureListener(
@@ -150,7 +150,7 @@ public abstract class VisionProcessorBase<T> implements VisionImageProcessor {
             @Nullable Bitmap originalCameraImage,
             @NonNull T results,
             @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay);
+            @NonNull GraphicOverlayLabel graphicOverlayLabel);
 
     protected abstract void onFailure(@NonNull Exception e);
 }

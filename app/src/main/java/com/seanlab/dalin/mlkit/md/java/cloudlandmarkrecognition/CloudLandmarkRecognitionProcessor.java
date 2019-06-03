@@ -28,7 +28,7 @@ import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmark;
 import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmarkDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 import com.seanlab.dalin.mlkit.md.java.VisionProcessorBase;
 
 import java.util.List;
@@ -63,17 +63,17 @@ public class CloudLandmarkRecognitionProcessor
             @Nullable Bitmap originalCameraImage,
             @NonNull List<FirebaseVisionCloudLandmark> landmarks,
             @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay) {
-        graphicOverlay.clear();
+            @NonNull GraphicOverlayLabel graphicOverlayLabel) {
+        graphicOverlayLabel.clear();
         Log.d(TAG, "cloud landmark size: " + landmarks.size());
         for (int i = 0; i < landmarks.size(); ++i) {
             FirebaseVisionCloudLandmark landmark = landmarks.get(i);
             Log.d(TAG, "cloud landmark: " + landmark);
-            CloudLandmarkGraphic cloudLandmarkGraphic = new CloudLandmarkGraphic(graphicOverlay,
+            CloudLandmarkGraphic cloudLandmarkGraphic = new CloudLandmarkGraphic(graphicOverlayLabel,
                     landmark);
-            graphicOverlay.add(cloudLandmarkGraphic);
+            graphicOverlayLabel.add(cloudLandmarkGraphic);
         }
-        graphicOverlay.postInvalidate();
+        graphicOverlayLabel.postInvalidate();
     }
 
     @Override

@@ -51,7 +51,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 
 /** Activity demonstrating different image detector features with a still image from camera. */
 @KeepName
@@ -81,7 +81,7 @@ public final class StillImageActivity extends AppCompatActivity {
 
   private Button getImageButton;
   private ImageView preview;
-  private GraphicOverlay graphicOverlay;
+  private GraphicOverlayLabel graphicOverlayLabel;
   private String selectedMode = CLOUD_LABEL_DETECTION;
   private String selectedSize = SIZE_PREVIEW;
 
@@ -134,8 +134,8 @@ public final class StillImageActivity extends AppCompatActivity {
     if (preview == null) {
       Log.d(TAG, "Preview is null");
     }
-    graphicOverlay = (GraphicOverlay) findViewById(R.id.previewOverlay);
-    if (graphicOverlay == null) {
+    graphicOverlayLabel = (GraphicOverlayLabel) findViewById(R.id.previewOverlay);
+    if (graphicOverlayLabel == null) {
       Log.d(TAG, "graphicOverlay is null");
     }
 
@@ -271,7 +271,7 @@ public final class StillImageActivity extends AppCompatActivity {
       }
 
       // Clear the overlay first
-      graphicOverlay.clear();
+      graphicOverlayLabel.clear();
 
       Bitmap imageBitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), imageUri);
 
@@ -297,7 +297,7 @@ public final class StillImageActivity extends AppCompatActivity {
       preview.setImageBitmap(resizedBitmap);
       bitmapForDetection = resizedBitmap;
 
-      imageProcessor.process(bitmapForDetection, graphicOverlay);
+      imageProcessor.process(bitmapForDetection, graphicOverlayLabel);
 
     } catch (IOException e) {
       Log.e(TAG, "Error retrieving saved image");

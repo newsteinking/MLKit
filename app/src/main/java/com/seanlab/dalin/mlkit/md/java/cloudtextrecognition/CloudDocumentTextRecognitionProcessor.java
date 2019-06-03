@@ -27,7 +27,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText;
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentTextRecognizer;
 import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 import com.seanlab.dalin.mlkit.md.java.VisionProcessorBase;
 
 import java.util.List;
@@ -57,8 +57,8 @@ public class CloudDocumentTextRecognitionProcessor
             @Nullable Bitmap originalCameraImage,
             @NonNull FirebaseVisionDocumentText text,
             @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay) {
-        graphicOverlay.clear();
+            @NonNull GraphicOverlayLabel graphicOverlayLabel) {
+        graphicOverlayLabel.clear();
         Log.d(TAG, "detected text is: " + text.getText());
         List<FirebaseVisionDocumentText.Block> blocks = text.getBlocks();
         for (int i = 0; i < blocks.size(); i++) {
@@ -69,14 +69,14 @@ public class CloudDocumentTextRecognitionProcessor
                     List<FirebaseVisionDocumentText.Symbol> symbols = words.get(l).getSymbols();
                     for (int m = 0; m < symbols.size(); m++) {
                         CloudDocumentTextGraphic cloudDocumentTextGraphic =
-                                new CloudDocumentTextGraphic(graphicOverlay,
+                                new CloudDocumentTextGraphic(graphicOverlayLabel,
                                 symbols.get(m));
-                        graphicOverlay.add(cloudDocumentTextGraphic);
+                        graphicOverlayLabel.add(cloudDocumentTextGraphic);
                     }
                 }
             }
         }
-        graphicOverlay.postInvalidate();
+        graphicOverlayLabel.postInvalidate();
     }
 
     @Override

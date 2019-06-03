@@ -36,7 +36,7 @@ public class CameraSourcePreview extends ViewGroup {
   private boolean surfaceAvailable;
   private CameraSource cameraSource;
 
-  private GraphicOverlay overlay;
+  private GraphicOverlayLabel overlay;
 
   public CameraSourcePreview(Context context, AttributeSet attrs) {
     super(context, attrs);
@@ -62,7 +62,7 @@ public class CameraSourcePreview extends ViewGroup {
     }
   }
 
-  public void start(CameraSource cameraSource, GraphicOverlay overlay) throws IOException {
+  public void start(CameraSource cameraSource, GraphicOverlayLabel overlay) throws IOException {
     this.overlay = overlay;
     start(cameraSource);
   }

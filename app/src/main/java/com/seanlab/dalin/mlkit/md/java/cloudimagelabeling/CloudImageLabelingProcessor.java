@@ -28,7 +28,7 @@ import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOption
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 import com.seanlab.dalin.mlkit.md.java.VisionProcessorBase;
 
 import java.util.ArrayList;
@@ -60,8 +60,8 @@ public class CloudImageLabelingProcessor
             @Nullable Bitmap originalCameraImage,
             @NonNull List<FirebaseVisionImageLabel> labels,
             @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay) {
-        graphicOverlay.clear();
+            @NonNull GraphicOverlayLabel graphicOverlayLabel) {
+        graphicOverlayLabel.clear();
         Log.d(TAG, "cloud label size: " + labels.size());
         List<String> labelsStr = new ArrayList<>();
         for (int i = 0; i < labels.size(); ++i) {
@@ -71,9 +71,11 @@ public class CloudImageLabelingProcessor
                 labelsStr.add((label.getText()));
             }
         }
-        CloudLabelGraphic cloudLabelGraphic = new CloudLabelGraphic(graphicOverlay, labelsStr);
-        graphicOverlay.add(cloudLabelGraphic);
-        graphicOverlay.postInvalidate();
+        /* sean
+        CloudLabelGraphic cloudLabelGraphic = new CloudLabelGraphic(graphicOverlayLabel, labelsStr);
+        graphicOverlayLabel.add(cloudLabelGraphic);
+        graphicOverlayLabel.postInvalidate();
+        */
     }
 
     @Override

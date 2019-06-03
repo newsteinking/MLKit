@@ -19,8 +19,8 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 
 import com.google.firebase.ml.vision.document.FirebaseVisionDocumentText;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay.Graphic;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel.Graphic;
 
 /**
  * Graphic instance for rendering TextBlock position, size, and ID within an associated graphic
@@ -34,9 +34,9 @@ public class CloudDocumentTextGraphic extends Graphic {
   private final Paint rectPaint;
   private final Paint textPaint;
   private final FirebaseVisionDocumentText.Symbol symbol;
-  private final GraphicOverlay overlay;
+  private final GraphicOverlayLabel overlay;
 
-  CloudDocumentTextGraphic(GraphicOverlay overlay, FirebaseVisionDocumentText.Symbol symbol) {
+  CloudDocumentTextGraphic(GraphicOverlayLabel overlay, FirebaseVisionDocumentText.Symbol symbol) {
     super(overlay);
 
     this.symbol = symbol;

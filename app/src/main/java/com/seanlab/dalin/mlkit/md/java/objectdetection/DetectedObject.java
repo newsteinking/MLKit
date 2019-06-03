@@ -23,6 +23,8 @@ import android.util.Log;
 import androidx.annotation.Nullable;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.objects.FirebaseVisionObject;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
+
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 
@@ -38,6 +40,7 @@ public class DetectedObject {
   private final int objectIndex;
   private final FirebaseVisionImage image;
 
+
   @Nullable
   private Bitmap bitmap = null;
   @Nullable
@@ -47,6 +50,7 @@ public class DetectedObject {
     this.object = object;
     this.objectIndex = objectIndex;
     this.image = image;
+
   }
 
   @Nullable

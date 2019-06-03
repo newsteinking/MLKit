@@ -17,19 +17,19 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay.Graphic;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel.Graphic;
 
 import java.util.List;
 
 /** Graphic instance for rendering detected label. */
 public class CloudLabelGraphic extends Graphic {
   private final Paint textPaint;
-  private final GraphicOverlay overlay;
+  private final GraphicOverlayLabel overlay;
 
   private List<String> labels;
 
-  CloudLabelGraphic(GraphicOverlay overlay, List<String> labels) {
+  CloudLabelGraphic(GraphicOverlayLabel overlay, List<String> labels) {
     super(overlay);
     this.overlay = overlay;
     this.labels = labels;

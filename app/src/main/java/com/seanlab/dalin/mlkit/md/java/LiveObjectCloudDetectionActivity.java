@@ -31,22 +31,36 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
+import com.google.firebase.ml.vision.FirebaseVision;
+import com.google.firebase.ml.vision.common.FirebaseVisionImage;
+import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 import com.seanlab.dalin.mlkit.R;
+import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
+import com.seanlab.dalin.mlkit.md.common.VisionImageProcessor;
 import com.seanlab.dalin.mlkit.md.java.camera.CameraSource;
 import com.seanlab.dalin.mlkit.md.java.camera.CameraSourcePreview;
 import com.seanlab.dalin.mlkit.md.java.camera.GraphicOverlay;
 import com.seanlab.dalin.mlkit.md.java.camera.WorkflowModel;
 import com.seanlab.dalin.mlkit.md.java.camera.WorkflowModel.WorkflowState;
+import com.seanlab.dalin.mlkit.md.java.cloudimagelabeling.CloudImageLabelingProcessor;
+import com.seanlab.dalin.mlkit.md.java.objectdetection.DetectedObject;
 import com.seanlab.dalin.mlkit.md.java.objectdetection.MultiObjectProcessor;
 import com.seanlab.dalin.mlkit.md.java.objectdetection.ProminentObjectProcessor;
 import com.seanlab.dalin.mlkit.md.java.productsearch.BottomSheetScrimView;
@@ -58,11 +72,12 @@ import com.seanlab.dalin.mlkit.md.java.settings.PreferenceUtils;
 import com.seanlab.dalin.mlkit.md.java.settings.SettingsActivity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 //sean
 import com.seanlab.dalin.mlkit.md.java.productsearch.SearchEngineCloud;
 
-//import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+
 
 
 //sean import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -71,7 +86,7 @@ import com.seanlab.dalin.mlkit.md.java.productsearch.SearchEngineCloud;
 /** Demonstrates the object detection and visual search workflow using camera preview. */
 public class LiveObjectCloudDetectionActivity extends AppCompatActivity implements OnClickListener {
 
-  private static final String TAG = "LiveObjectActivity";
+  private static final String TAG = "LiveCloudActivity";
 
   private CameraSource cameraSource;
   private CameraSourcePreview preview;
@@ -91,9 +106,12 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
 
   //private SearchEngine searchEngine;
   //sean
-  private GraphicOverlay graphicImageOverlay;
+  private GraphicOverlayLabel graphicImageOverlay;
   private SearchEngineCloud searchEngineCloud;
   private Bitmap searchbitmap;
+  private VisionImageProcessor imageProcessor;
+
+  private  FirebaseVisionImageLabeler detector;
 
 
 
@@ -131,7 +149,16 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
     searchProgressBar = findViewById(R.id.search_progress_bar);
 
     //sean
-    //graphicImageOverlay = (GraphicOverlay) findViewById(R.id.previewOverlay);
+    graphicImageOverlay = (GraphicOverlayLabel) findViewById(R.id.previewOverlay);
+    if (graphicImageOverlay == null) {
+      Log.d(TAG, "graphicOverlay is null");
+    }
+    FirebaseVisionCloudImageLabelerOptions.Builder optionsBuilder =
+            new FirebaseVisionCloudImageLabelerOptions.Builder();
+
+    detector = FirebaseVision.getInstance().getCloudImageLabeler(optionsBuilder.build());
+
+
 
     setUpBottomSheet();
 
@@ -305,6 +332,8 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
 
     // Observes the workflow state changes, if happens, update the overlay view indicators and
     // camera preview state.
+
+
     workflowModel.workflowState.observe(
         this,
         workflowState -> {
@@ -321,10 +350,12 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
             stateChangeInManualSearchMode(workflowState);
           }
         });
-    //sean
+
     // Observes changes on the object to search, if happens, fire product search request.
     workflowModel.objectToSearch.observe(
             this, object -> searchEngineCloud.search(object, workflowModel));
+
+
 
     // Observes changes on the object that has search completed, if happens, show the bottom sheet
     // to present search result.
@@ -335,11 +366,16 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
                 List<Product> productList = searchedObject.getProductList();
 
                 objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail();
+
+                //sean
+                getFromCloud();
+                /*
                 bottomSheetTitleView.setText(
                         getResources()
                                 .getQuantityString(
                                         R.plurals.bottom_sheet_title, productList.size(), productList.size()));
                 productRecyclerView.setAdapter(new ProductAdapter(productList));
+                */
                 Log.d(TAG, "searched : " + productList.size());
 
 
@@ -351,38 +387,66 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
               }
             });
 
-    /*
-    // Observes changes on the object to search, if happens, fire product search request.
-    workflowModel.objectToSearch.observe(
-        this, object -> searchEngine.search(object, workflowModel));
-
-    // Observes changes on the object that has search completed, if happens, show the bottom sheet
-    // to present search result.
-    workflowModel.searchedObject.observe(
-        this,
-        searchedObject -> {
-          if (searchedObject != null) {
-            List<Product> productList = searchedObject.getProductList();
-            objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail();
-            bottomSheetTitleView.setText(
-                getResources()
-                    .getQuantityString(
-                        R.plurals.bottom_sheet_title, productList.size(), productList.size()));
-            productRecyclerView.setAdapter(new ProductAdapter(productList));
-            Log.d(TAG, "searched : " + productList.size());
-
-
-
-
-            slidingSheetUpFromHiddenState = true;
-            bottomSheetBehavior.setPeekHeight(preview.getHeight() / 2);
-            bottomSheetBehavior.setState(BottomSheetBehavior.STATE_COLLAPSED);
-          }
-        });
-     */
 
   }
 
+  public void getFromCloud() {
+    DetectedObject object = workflowModel.getConfirmedObject();
+    Log.e(TAG, "SEAN:FirebaseVisionImage===>start");
+    //searchbitmap=searchedObject.getObjectThumbnail();
+    if (object != null) {
+      searchbitmap = object.getBitmap();
+
+     FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(searchbitmap);
+      detector.processImage(image)
+      .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+        @Override
+        public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionImageLabels) {
+          //
+          Log.e(TAG, "SEAN:FirebaseVisionImage===>onSuccess");
+          Log.d(TAG, "cloud label size: " + firebaseVisionImageLabels.size());
+          List<String> labelsStr = new ArrayList<>();
+          List<Product> productList = new ArrayList<>();
+          for (int i = 0; i < firebaseVisionImageLabels.size(); ++i) {
+            FirebaseVisionImageLabel label = firebaseVisionImageLabels.get(i);
+            Log.d(TAG, "cloud label: " + label);
+            if (label.getText() != null) {
+              labelsStr.add((label.getText()));
+              String labels=label.getText();
+              Float confidence=label.getConfidence();
+              productList.add(
+                      new Product( "", labels + i, confidence.toString() + i));
+
+            }
+          }
+
+
+          bottomSheetTitleView.setText(
+                  getResources()
+                          .getQuantityString(
+                                  R.plurals.bottom_sheet_title, labelsStr.size(), labelsStr.size()));
+
+          productRecyclerView.setAdapter(new ProductAdapter(productList));
+          Log.d(TAG, "searched : " + productList.size());
+
+          ///
+        }
+      })
+      .addOnFailureListener(new OnFailureListener() {
+        @Override
+        public void onFailure(@NonNull Exception e) {
+          //
+          Log.e(TAG, "SEAN:FirebaseVisionImage===>onFailure");
+          //
+        }
+      })
+      ;
+      //imageProcessor = new CloudImageLabelingProcessor();
+      //imageProcessor.process(searchbitmap, graphicImageOverlay);
+    }
+    Log.e(TAG, "SEAN:FirebaseVisionImage===>end" );
+
+  }
   private void stateChangeInAutoSearchMode(WorkflowState workflowState) {
     boolean wasPromptChipGone = (promptChip.getVisibility() == View.GONE);
 
@@ -403,6 +467,9 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
       case CONFIRMED:
         promptChip.setVisibility(View.VISIBLE);
         promptChip.setText(R.string.prompt_searching);
+
+
+
         stopCameraPreview();
         break;
       case SEARCHING:
@@ -413,6 +480,7 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
         break;
       case SEARCHED:
         promptChip.setVisibility(View.GONE);
+
         stopCameraPreview();
         break;
       default:

@@ -27,7 +27,7 @@ import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
 import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 import com.seanlab.dalin.mlkit.md.java.VisionProcessorBase;
 
 import java.util.List;
@@ -56,8 +56,8 @@ public class CloudTextRecognitionProcessor extends VisionProcessorBase<FirebaseV
             @Nullable Bitmap originalCameraImage,
             @NonNull FirebaseVisionText text,
             @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay) {
-        graphicOverlay.clear();
+            @NonNull GraphicOverlayLabel graphicOverlayLabel) {
+        graphicOverlayLabel.clear();
         if (text == null) {
             return; // TODO: investigate why this is needed
         }
@@ -67,13 +67,13 @@ public class CloudTextRecognitionProcessor extends VisionProcessorBase<FirebaseV
             for (int j = 0; j < lines.size(); j++) {
                 List<FirebaseVisionText.Element> elements = lines.get(j).getElements();
                 for (int l = 0; l < elements.size(); l++) {
-                    CloudTextGraphic cloudTextGraphic = new CloudTextGraphic(graphicOverlay,
+                    CloudTextGraphic cloudTextGraphic = new CloudTextGraphic(graphicOverlayLabel,
                             elements.get(l));
-                    graphicOverlay.add(cloudTextGraphic);
+                    graphicOverlayLabel.add(cloudTextGraphic);
                 }
             }
         }
-        graphicOverlay.postInvalidate();
+        graphicOverlayLabel.postInvalidate();
     }
 
     @Override

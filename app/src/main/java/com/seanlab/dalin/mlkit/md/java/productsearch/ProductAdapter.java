@@ -65,7 +65,8 @@ public class ProductAdapter extends Adapter<ProductViewHolder> {
     }
   }
 
-  private final List<Product> productList;
+  //seanprivate final List<Product> productList;
+  public  List<Product> productList;
 
   public ProductAdapter(List<Product> productList) {
     this.productList = productList;

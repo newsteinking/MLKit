@@ -45,7 +45,7 @@ import com.google.firebase.ml.vision.objects.FirebaseVisionObjectDetectorOptions
 import com.seanlab.dalin.mlkit.R;
 import com.seanlab.dalin.mlkit.md.common.CameraSource;
 import com.seanlab.dalin.mlkit.md.common.CameraSourcePreview;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
 //import com.google.firebase.samples.apps.mlkit.java.automl.AutoMLImageLabelerProcessor;
 //import com.seanlab.dalin.mlkit.md.java.barcodescanning.BarcodeScanningProcessor;
 //import com.google.firebase.samples.apps.mlkit.java.custommodel.CustomImageClassifierProcessor;
@@ -82,7 +82,7 @@ public final class LivePreviewActivity extends AppCompatActivity
 
     private CameraSource cameraSource = null;
     private CameraSourcePreview preview;
-    private GraphicOverlay graphicOverlay;
+    private GraphicOverlayLabel graphicOverlayLabel;
     private String selectedModel = FACE_CONTOUR;
 
     @Override
@@ -96,8 +96,8 @@ public final class LivePreviewActivity extends AppCompatActivity
         if (preview == null) {
             Log.d(TAG, "Preview is null");
         }
-        graphicOverlay = (GraphicOverlay) findViewById(R.id.fireFaceOverlay);
-        if (graphicOverlay == null) {
+        graphicOverlayLabel = (GraphicOverlayLabel) findViewById(R.id.fireFaceOverlay);
+        if (graphicOverlayLabel == null) {
             Log.d(TAG, "graphicOverlay is null");
         }
 
@@ -172,7 +172,7 @@ public final class LivePreviewActivity extends AppCompatActivity
     private void createCameraSource(String model) {
         // If there's no existing cameraSource, create one.
         if (cameraSource == null) {
-            cameraSource = new CameraSource(this, graphicOverlay);
+            cameraSource = new CameraSource(this, graphicOverlayLabel);
         }
 
         try {
@@ -241,10 +241,10 @@ public final class LivePreviewActivity extends AppCompatActivity
                 if (preview == null) {
                     Log.d(TAG, "resume: Preview is null");
                 }
-                if (graphicOverlay == null) {
+                if (graphicOverlayLabel == null) {
                     Log.d(TAG, "resume: graphOverlay is null");
                 }
-                preview.start(cameraSource, graphicOverlay);
+                preview.start(cameraSource, graphicOverlayLabel);
             } catch (IOException e) {
                 Log.e(TAG, "Unable to start camera source.", e);
                 cameraSource.release();

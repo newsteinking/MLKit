@@ -45,7 +45,7 @@
     <string name="prompt_hold_camera_steady">Keep camera still for a moment</string>
     <string name="prompt_move_camera_closer">Move closer to search</string>
     <string name="prompt_searching">Searching&#8230;</string>
-    <string name="product_search_button">Search object</string>
+    <string name="product_search_button">사진 검색</string>
     <plurals name="bottom_sheet_title">
         <item quantity="one">%d 건 검색됨</item>
         <item quantity="other">%d 건 검색됨</item>

@@ -21,23 +21,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
-import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
-import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
-import com.seanlab.dalin.mlkit.md.java.VisionProcessorBase;
-import com.seanlab.dalin.mlkit.md.java.cloudimagelabeling.CloudLabelGraphic;
+
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
+import com.seanlab.dalin.mlkit.md.common.VisionImageProcessor;
+import com.seanlab.dalin.mlkit.md.java.cloudimagelabeling.CloudImageLabelingProcessor;
 import com.seanlab.dalin.mlkit.md.java.objectdetection.DetectedObject;
 
 import java.util.ArrayList;
@@ -46,20 +41,22 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 //import com.google.firebase.ml.md.java.objectdetection.DetectedObject;
-import com.seanlab.dalin.mlkit.md.common.FrameMetadata;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
-import com.seanlab.dalin.mlkit.md.java.cloudimagelabeling.CloudLabelGraphic;
+
 
 /** A fake search engine to help simulate the complete work flow. */
-public class SearchEngineCloud  extends VisionProcessorBase<List<FirebaseVisionImageLabel>> {
+public class SearchEngineCloud    {
 
   private static final String TAG = "SearchEngineCloud";
 
-    private final FirebaseVisionImageLabeler detector;
+    //sean
     private List<String> cloudlabelsStr;
 
-    private Bitmap searchbitmap;
-    
+    //private Bitmap searchbitmap;
+    //private final FirebaseVisionImageLabeler detector;
+
+    //private VisionImageProcessor imageProcessor;
+    //private GraphicOverlayLabel graphicOverlayLabel;
+
 
     public interface SearchResultListener {
     void onSearchCompleted(DetectedObject object, List<Product> productList);
@@ -72,19 +69,32 @@ public class SearchEngineCloud  extends VisionProcessorBase<List<FirebaseVisionI
     searchRequestQueue = Volley.newRequestQueue(context);
     requestCreationExecutor = Executors.newSingleThreadExecutor();
 
+    //initial
+      /*
       FirebaseVisionCloudImageLabelerOptions.Builder optionsBuilder =
               new FirebaseVisionCloudImageLabelerOptions.Builder();
 
       detector = FirebaseVision.getInstance().getCloudImageLabeler(optionsBuilder.build());
+      */
   }
 
   public void search(DetectedObject object, SearchResultListener listener) {
     // Crops the object image out of the full image is expensive, so do it off the UI thread.
 
+      //sean
+      //getFromCloud(object);
+      /*
+      Log.e(TAG, "SEAN:FirebaseVisionImage===>start" );
+      searchbitmap=object.getBitmap();
+      FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(searchbitmap);
+      //detector.processImage(image);
+      imageProcessor = new CloudImageLabelingProcessor();
+      imageProcessor.process(searchbitmap,null);
 
-    Tasks.call(requestCreationExecutor, () -> createRequest(object))
-        .addOnSuccessListener(
-                productRequest -> searchRequestQueue.add(productRequest.setTag(TAG))
+      Log.e(TAG, "SEAN:FirebaseVisionImage===>end" );
+      */
+       Tasks.call(requestCreationExecutor, () -> createRequest(object))
+        .addOnSuccessListener(productRequest -> searchRequestQueue.add(productRequest.setTag(TAG))
 
         )
         .addOnFailureListener(
@@ -92,7 +102,7 @@ public class SearchEngineCloud  extends VisionProcessorBase<List<FirebaseVisionI
               Log.e(TAG, "Failed to create product search request!", e);
               // Remove the below dummy code after your own product search backed hooked up.
               List<Product> productList = new ArrayList<>();
-              for (int i = 0; i < 10; i++) {
+              for (int i = 0; i < 7; i++) {
                 productList.add(
                     new Product( "", "Product title " + i, "Product subtitle " + i));
               }
@@ -100,6 +110,20 @@ public class SearchEngineCloud  extends VisionProcessorBase<List<FirebaseVisionI
             });
 
   }
+  /*
+    private void getFromCloud(DetectedObject object) {
+
+        Log.e(TAG, "SEAN:FirebaseVisionImage===>start" );
+        searchbitmap=object.getBitmap();
+        FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(searchbitmap);
+        imageProcessor = new CloudImageLabelingProcessor();
+        imageProcessor.process(searchbitmap,null);
+        Log.e(TAG, "SEAN:FirebaseVisionImage===>end" );
+
+    }
+*/
+
+
 
   private  JsonObjectRequest createRequest(DetectedObject searchingObject) throws Exception {
     byte[] objectImageData = searchingObject.getImageData();
@@ -121,44 +145,14 @@ public class SearchEngineCloud  extends VisionProcessorBase<List<FirebaseVisionI
     throw new Exception("Hooks up with your own product search backend.");
   }
 
-
   public void shutdown() {
     searchRequestQueue.cancelAll(TAG);
     requestCreationExecutor.shutdown();
   }
 
-    @Override
-    protected Task<List<FirebaseVisionImageLabel>> detectInImage(FirebaseVisionImage image) {
-        return detector.processImage(image);
-    }
 
-    @Override
-    protected void onSuccess(
-            @Nullable Bitmap originalCameraImage,
-            @NonNull List<FirebaseVisionImageLabel> labels,
-            @NonNull FrameMetadata frameMetadata,
-            @NonNull GraphicOverlay graphicOverlay) {
-        graphicOverlay.clear();
-        Log.d(TAG, "cloud label size: " + labels.size());
-        List<String> labelsStr = new ArrayList<>();
-        for (int i = 0; i < labels.size(); ++i) {
-            FirebaseVisionImageLabel label = labels.get(i);
-            Log.d(TAG, "cloud label: " + label);
-            if (label.getText() != null) {
-                labelsStr.add((label.getText()));
-            }
-        }
-        /*
-        CloudLabelGraphic cloudLabelGraphic = new CloudLabelGraphic(graphicOverlay, labelsStr);
-        graphicOverlay.add(cloudLabelGraphic);
-        graphicOverlay.postInvalidate();
-        */
-    }
 
-    @Override
-    protected void onFailure(@NonNull Exception e) {
-        Log.e(TAG, "Cloud Label detection failed " + e);
-    }
+
 
 
 }

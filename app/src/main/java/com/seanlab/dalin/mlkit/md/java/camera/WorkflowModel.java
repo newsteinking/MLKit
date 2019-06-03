@@ -113,6 +113,14 @@ public class WorkflowModel extends AndroidViewModel implements SearchEngine.Sear
     objectIdsToSearch.add(objectId);
     objectToSearch.setValue(object);
   }
+//sean
+public DetectedObject getConfirmedObject() {
+  if (confirmedObject != null) {
+    return confirmedObject;
+  }
+  return null;
+}
+
 
   public void markCameraLive() {
     isCameraLive = true;

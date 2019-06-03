@@ -23,11 +23,11 @@ import java.nio.ByteBuffer;
 public interface VisionImageProcessor {
 
   /** Processes the images with the underlying machine learning models. */
-  void process(ByteBuffer data, FrameMetadata frameMetadata, GraphicOverlay graphicOverlay)
+  void process(ByteBuffer data, FrameMetadata frameMetadata, GraphicOverlayLabel graphicOverlayLabel)
       throws FirebaseMLException;
 
   /** Processes the bitmap images. */
-  void process(Bitmap bitmap, GraphicOverlay graphicOverlay);
+  void process(Bitmap bitmap, GraphicOverlayLabel graphicOverlayLabel);
 
   /** Stops the underlying machine learning model and release resources. */
   void stop();

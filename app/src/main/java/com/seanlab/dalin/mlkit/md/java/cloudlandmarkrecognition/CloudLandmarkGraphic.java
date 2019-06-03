@@ -19,8 +19,8 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 
 import com.google.firebase.ml.vision.cloud.landmark.FirebaseVisionCloudLandmark;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay;
-import com.seanlab.dalin.mlkit.md.common.GraphicOverlay.Graphic;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
+import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel.Graphic;
 
 /** Graphic instance for rendering detected landmark. */
 public class CloudLandmarkGraphic extends Graphic {
@@ -32,7 +32,7 @@ public class CloudLandmarkGraphic extends Graphic {
   private final Paint landmarkPaint;
   private FirebaseVisionCloudLandmark landmark;
 
-  CloudLandmarkGraphic(GraphicOverlay overlay, FirebaseVisionCloudLandmark landmark) {
+  CloudLandmarkGraphic(GraphicOverlayLabel overlay, FirebaseVisionCloudLandmark landmark) {
     super(overlay);
 
     this.landmark = landmark;

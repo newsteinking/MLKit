@@ -14,15 +14,14 @@
     <include layout="@layout/camera_preview_overlay"/>
 
   </com.seanlab.dalin.mlkit.md.java.camera.CameraSourcePreview>
-  <!--
-  <com.seanlab.dalin.mlkit.md.common.GraphicOverlay
+  <!--  sean -->
+  <com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel
       android:id="@+id/previewOverlay"
       android:layout_width="fill_parent"
       android:layout_height="fill_parent"
       android:layout_alignParentStart="true"
       android:layout_alignParentTop="true"
       android:layout_alignParentBottom="true"/>
-  -->
   <include
       layout="@layout/top_action_bar_in_live_camera"
       android:layout_width="match_parent"
