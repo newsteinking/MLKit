@@ -368,14 +368,14 @@ public class LiveObjectCloudDetectionActivity extends AppCompatActivity implemen
                 objectThumbnailForBottomSheet = searchedObject.getObjectThumbnail();
 
                 //sean
-                getFromCloud();
-                /*
+                //getFromCloud();
+
                 bottomSheetTitleView.setText(
                         getResources()
                                 .getQuantityString(
                                         R.plurals.bottom_sheet_title, productList.size(), productList.size()));
                 productRecyclerView.setAdapter(new ProductAdapter(productList));
-                */
+
                 Log.d(TAG, "searched : " + productList.size());
 
 

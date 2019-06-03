@@ -21,13 +21,18 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
+
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
 
 import com.seanlab.dalin.mlkit.md.common.GraphicOverlayLabel;
@@ -51,8 +56,8 @@ public class SearchEngineCloud    {
     //sean
     private List<String> cloudlabelsStr;
 
-    //private Bitmap searchbitmap;
-    //private final FirebaseVisionImageLabeler detector;
+    private Bitmap searchbitmap;
+    private final FirebaseVisionImageLabeler detector;
 
     //private VisionImageProcessor imageProcessor;
     //private GraphicOverlayLabel graphicOverlayLabel;
@@ -70,41 +75,78 @@ public class SearchEngineCloud    {
     requestCreationExecutor = Executors.newSingleThreadExecutor();
 
     //initial
-      /*
+
       FirebaseVisionCloudImageLabelerOptions.Builder optionsBuilder =
               new FirebaseVisionCloudImageLabelerOptions.Builder();
 
       detector = FirebaseVision.getInstance().getCloudImageLabeler(optionsBuilder.build());
-      */
+
   }
 
   public void search(DetectedObject object, SearchResultListener listener) {
     // Crops the object image out of the full image is expensive, so do it off the UI thread.
 
-      //sean
-      //getFromCloud(object);
-      /*
-      Log.e(TAG, "SEAN:FirebaseVisionImage===>start" );
-      searchbitmap=object.getBitmap();
-      FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(searchbitmap);
-      //detector.processImage(image);
-      imageProcessor = new CloudImageLabelingProcessor();
-      imageProcessor.process(searchbitmap,null);
-
-      Log.e(TAG, "SEAN:FirebaseVisionImage===>end" );
-      */
        Tasks.call(requestCreationExecutor, () -> createRequest(object))
+               .addOnSuccessListener(new OnSuccessListener<JsonObjectRequest>() {
+                   @Override
+                   public void onSuccess(JsonObjectRequest jsonObjectRequest) {
+                       //sean
+                       searchbitmap = object.getBitmap();
+                       FirebaseVisionImage image = FirebaseVisionImage.fromBitmap(searchbitmap);
+                       detector.processImage(image)
+                         .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                             @Override
+                             public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionImageLabels) {
+                                 Log.d(TAG, "cloud label size: " + firebaseVisionImageLabels.size());
+
+                                 List<Product> productList = new ArrayList<>();
+                                 for (int i = 0; i < firebaseVisionImageLabels.size(); i++) {
+                                     FirebaseVisionImageLabel label = firebaseVisionImageLabels.get(i);
+
+                                     Log.d(TAG, "cloud label: " + label);
+                                     if (label.getText() != null) {
+                                         //labelsStr.add((label.getText()));
+                                         String labels=label.getText();
+                                         Float confidence=label.getConfidence();
+                                         productList.add(
+                                                 new Product("", labels + i, confidence.toString() + i));
+                                     } else {
+                                         productList.add(
+                                                 new Product("", "No Name " + i, "NO Confidence " + i));
+                                     }
+                                 }
+                                 listener.onSearchCompleted(object, productList);
+                             }
+                         })
+                         .addOnFailureListener(new OnFailureListener() {
+                             @Override
+                             public void onFailure(@NonNull Exception e) {
+
+                                 List<Product> productList = new ArrayList<>();
+                                 for (int i = 0; i < 5; i++) {
+                                     productList.add(
+                                             new Product( "", "MLkit Fail " + i, "Product subtitle " + i));
+                                 }
+                                 listener.onSearchCompleted(object, productList);
+
+                             }
+                         })
+                        ;
+
+                   }
+               })
+               /*
         .addOnSuccessListener(productRequest -> searchRequestQueue.add(productRequest.setTag(TAG))
 
-        )
+        )*/
         .addOnFailureListener(
             e -> {
               Log.e(TAG, "Failed to create product search request!", e);
               // Remove the below dummy code after your own product search backed hooked up.
               List<Product> productList = new ArrayList<>();
-              for (int i = 0; i < 7; i++) {
+              for (int i = 0; i < 3; i++) {
                 productList.add(
-                    new Product( "", "Product title " + i, "Product subtitle " + i));
+                    new Product( "", "Search Fail " + i, "Product subtitle " + i));
               }
               listener.onSearchCompleted(object, productList);
             });
@@ -125,11 +167,11 @@ public class SearchEngineCloud    {
 
 
 
-  private  JsonObjectRequest createRequest(DetectedObject searchingObject) throws Exception {
+  private  JsonObjectRequest createRequest(DetectedObject searchingObject)  {
     byte[] objectImageData = searchingObject.getImageData();
 
     if (objectImageData == null) {
-      throw new Exception("Failed to get object image data!");
+      //throw new Exception("Failed to get object image data!");
     }
 
     // Hooks up with your own product search backend here.
@@ -141,8 +183,8 @@ public class SearchEngineCloud    {
                   new Product( "", "Product title " + i, "Product subtitle " + i));
       }
 
-
-    throw new Exception("Hooks up with your own product search backend.");
+      return null;
+    //throw new Exception("Hooks up with your own product search backend.");
   }
 
   public void shutdown() {
